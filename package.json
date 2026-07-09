@@ -1,0 +1,13 @@
+{
+  "name": "auth-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build:lib": "npm run build --workspace=@yourscope/nest-auth",
+    "start:demo": "npm run build:lib && npm run start:dev --workspace=auth-demo-app",
+    "start:frontend": "npm run dev --workspace=auth-frontend"
+  }
+}
