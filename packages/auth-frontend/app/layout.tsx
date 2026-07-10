@@ -22,7 +22,7 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: 'Keystone — Auth, demonstrated',
-  description: 'A live demo of the @mahbub508/nest-auth package.',
+  description: 'A live demo of the @yourscope/nest-auth package.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

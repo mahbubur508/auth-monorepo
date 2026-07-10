@@ -11,3 +11,5 @@ export * from './dto/verify-email.dto';
 export * from './dto/resend-otp.dto';
 export * from './dto/forgot-password.dto';
 export * from './dto/reset-password.dto';
+export * from './guards/jwt-auth.guard';
+export * from './strategies/jwt.strategy';

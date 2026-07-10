@@ -1,6 +1,6 @@
 # auth-frontend — Keystone
 
-A Next.js (App Router + TypeScript + Tailwind) frontend for the `@mahbub508/nest-auth`
+A Next.js (App Router + TypeScript + Tailwind) frontend for the `@yourscope/nest-auth`
 backend. No component library — plain Tailwind, so it's easy to reskin.
 
 ## Run it

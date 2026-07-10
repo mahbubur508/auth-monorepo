@@ -51,7 +51,7 @@ export default function Home() {
         </section>
 
         <footer className="flex flex-col gap-1 border-t border-vault-line py-6 font-mono text-[11px] text-ivory/30 sm:flex-row sm:items-center sm:justify-between">
-          <span>Backed by @mahbub508/nest-auth</span>
+          <span>Backed by @yourscope/nest-auth</span>
           <span>localhost:3000 → API · localhost:3001 → this app</span>
         </footer>
       </div>

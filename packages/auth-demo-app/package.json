@@ -9,7 +9,7 @@
     "start:dev": "tsc-watch -p tsconfig.json --onSuccess \"node dist/main.js\""
   },
   "dependencies": {
-    "@mahbub508/nest-auth": "file:../nest-auth",
+    "@yourscope/nest-auth": "file:../nest-auth",
     "@nestjs/common": "^10.4.0",
     "@nestjs/core": "^10.4.0",
     "@nestjs/platform-express": "^10.4.0",
