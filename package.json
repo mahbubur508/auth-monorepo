@@ -6,8 +6,8 @@
     "packages/*"
   ],
   "scripts": {
-    "build:lib": "npm run build --workspace=@mahbub508/nest-auth",
-    "start:demo": "npm run build:lib && npm run start:dev --workspace=auth-demo-app",
-    "start:frontend": "npm run dev --workspace=auth-frontend"
+    "build:lib": "node init && npm run build --workspace=@mahbub508/nest-auth",
+    "start:demo": "node init && npm run build:lib && npm run start:dev --workspace=auth-demo-app",
+    "start:frontend": "node init && npm run dev --workspace=auth-frontend"
   }
 }

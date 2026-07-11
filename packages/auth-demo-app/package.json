@@ -4,9 +4,9 @@
   "private": true,
   "description": "A minimal, runnable NestJS server that uses the nest-auth package. Run this, not the nest-auth package itself.",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "start": "node dist/main.js",
-    "start:dev": "tsc-watch -p tsconfig.json --onSuccess \"node dist/main.js\""
+    "build": "node init && tsc -p tsconfig.json",
+    "start": "node init && node dist/main.js",
+    "start:dev": "node init && tsc-watch -p tsconfig.json --onSuccess \"node dist/main.js\""
   },
   "dependencies": {
     "@mahbub508/nest-auth": "file:../nest-auth",
