@@ -1,7 +1,6 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PassportModule } from '@nestjs/passport';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
@@ -9,7 +8,6 @@ import { MailService } from './mail.service';
 import { AuthUser } from './entities/auth-user.entity';
 import { OtpToken } from './entities/otp-token.entity';
 import { AUTH_OPTIONS, AuthModuleOptions } from './interfaces/auth-options.interface';
-import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({})
 export class AuthModule {
@@ -31,10 +29,9 @@ export class AuthModule {
       imports: [
         JwtModule.register({
           secret: options.jwtSecret,
-          signOptions: { expiresIn: options.jwtExpiresIn ?? '1d' },
+          signOptions: { expiresIn: (options.jwtExpiresIn ?? '1d') as any },
         }),
         TypeOrmModule.forFeature([AuthUser, OtpToken]),
-        PassportModule,
       ],
       controllers: [AuthController],
       providers: [
@@ -44,9 +41,8 @@ export class AuthModule {
           provide: AUTH_OPTIONS,
           useValue: options,
         },
-        JwtStrategy,
       ],
-      exports: [AuthService, JwtStrategy, PassportModule],
+      exports: [AuthService],
     };
   }
 }

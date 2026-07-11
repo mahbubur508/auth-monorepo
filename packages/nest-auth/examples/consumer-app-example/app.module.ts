@@ -2,7 +2,7 @@ import { Module, ValidationPipe } from '@nestjs/common';
 import { APP_PIPE } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule, AuthUser, OtpToken } from '@yourscope/nest-auth';
+import { AuthModule, AuthUser, OtpToken } from '@mahbub508/nest-auth';
 
 @Module({
   imports: [

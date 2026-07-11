@@ -1,5 +1,5 @@
 // examples/nextjs-usage/useAuth.ts
-// Copy this into your Next.js app (or publish as a separate @yourscope/next-auth-ui package)
+// Copy this into your Next.js app (or publish as a separate @mahbub508/next-auth-ui package)
 
 import axios from 'axios';
 

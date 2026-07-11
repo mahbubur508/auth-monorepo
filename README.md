@@ -8,14 +8,6 @@ This repo has **three packages**:
 | `packages/auth-demo-app`      | A working NestJS **server** that uses the library  | ✅ Yes — the backend API      |
 | `packages/auth-frontend`      | A polished Next.js **UI** for the whole auth flow  | ✅ Yes — the frontend         |
 
-## Installation (For external projects)
-
-If you want to use this library in an external NestJS project, install it via npm:
-
-```bash
-npm install @mahbub508/nest-auth
-```
-
 ## Quick Start (run everything)
 
 You need **two terminals** — one for the API, one for the UI.

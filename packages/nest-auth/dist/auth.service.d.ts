@@ -29,6 +29,8 @@ export declare class AuthService {
     register(dto: RegisterDto): Promise<{
         success: boolean;
         message: string;
+        userId: string;
+        email: string;
     }>;
     verifyEmail(dto: VerifyEmailDto): Promise<{
         success: boolean;
@@ -54,4 +56,17 @@ export declare class AuthService {
         success: boolean;
         message: string;
     }>;
+    /**
+     * Look up the auth user's id/email by email. Useful when you need the
+     * AuthUser.id to link your own entities (e.g. a UserProfile) to it.
+     */
+    findByEmail(email: string): Promise<{
+        id: string;
+        email: string;
+    } | null>;
+    /** Look up the auth user's id/email by id. */
+    findById(id: string): Promise<{
+        id: string;
+        email: string;
+    } | null>;
 }

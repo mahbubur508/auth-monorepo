@@ -189,7 +189,82 @@ Steps:
 
 ---
 
-## 9. Folder Structure
+## 9. Adding Extra Fields / Entities on Registration (e.g. name, phone, role)
+
+The package's `AuthUser` entity is intentionally minimal (`id`, `email`, `password`,
+`isEmailVerified`) — it only owns the parts that need to be secure and consistent
+(hashing, OTPs, tokens). **Don't edit the package's entity.** Instead, create your own
+entity in your app and link it to `AuthUser.id` with a one-to-one relationship.
+
+### The pattern
+
+1. Create a `UserProfile` (or whatever you want to call it) entity in your own app with
+   a `authUserId` column pointing back to the package's `AuthUser.id`.
+2. Create your **own** `/users/register` endpoint (not the package's `/auth/register`)
+   that: calls `authService.register()` first, then saves your extra fields into
+   `UserProfile` using the `userId` returned.
+3. Point your frontend's registration form at your new endpoint instead of the
+   package's built-in one. Every other endpoint (`verify-email`, `login`,
+   `forgot-password`, `reset-password`) stays exactly as-is — they don't need the
+   extra fields.
+
+```ts
+// your-app/src/users/user-profile.entity.ts
+@Entity('user_profiles')
+export class UserProfile {
+  @PrimaryGeneratedColumn('uuid') id: string;
+
+  @Column({ unique: true }) authUserId: string;
+
+  @Column() fullName: string;
+  @Column({ nullable: true }) phone?: string;
+  @Column({ default: 'user' }) role: string;
+}
+```
+
+```ts
+// your-app/src/users/users.controller.ts
+@Controller('users')
+export class UsersController {
+  constructor(
+    private readonly authService: AuthService, // from @mahbub508/nest-auth
+    @InjectRepository(UserProfile) private readonly profileRepo: Repository<UserProfile>,
+  ) {}
+
+  @Post('register')
+  async register(@Body() dto: RegisterWithProfileDto) {
+    const result = await this.authService.register({ email: dto.email, password: dto.password });
+
+    await this.profileRepo.save(
+      this.profileRepo.create({
+        authUserId: result.userId,   // 👈 links to the package's user
+        fullName: dto.fullName,
+        phone: dto.phone,
+      }),
+    );
+
+    return { success: true, message: result.message, userId: result.userId };
+  }
+}
+```
+
+A full, tested, working copy of this pattern (entity + DTO + controller) is in
+`examples/extending-with-profile/`. It's exactly what's wired into `auth-demo-app` —
+try it:
+
+```bash
+curl -X POST http://localhost:3000/users/register \
+  -H "Content-Type: application/json" \
+  -d '{"email":"you@example.com","password":"Test@1234","fullName":"Your Name","phone":"017..."}'
+```
+
+`AuthService` also exposes `findByEmail(email)` and `findById(id)` if you need to look
+up the auth user's id/email elsewhere in your app (e.g. to join against your profile
+table in other queries).
+
+---
+
+## 10. Folder Structure
 
 ```
 nest-auth/
@@ -211,7 +286,7 @@ nest-auth/
 
 ---
 
-## 10. Notes / Production Considerations
+## 11. Notes / Production Considerations
 
 - Set `synchronize: false` in TypeORM for production; use migrations instead.
 - Rotate `jwtSecret` via environment variables, never hardcode it.

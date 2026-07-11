@@ -27,5 +27,3 @@ __exportStar(require("./dto/verify-email.dto"), exports);
 __exportStar(require("./dto/resend-otp.dto"), exports);
 __exportStar(require("./dto/forgot-password.dto"), exports);
 __exportStar(require("./dto/reset-password.dto"), exports);
-__exportStar(require("./guards/jwt-auth.guard"), exports);
-__exportStar(require("./strategies/jwt.strategy"), exports);

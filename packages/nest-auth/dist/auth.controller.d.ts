@@ -11,6 +11,8 @@ export declare class AuthController {
     register(dto: RegisterDto): Promise<{
         success: boolean;
         message: string;
+        userId: string;
+        email: string;
     }>;
     verifyEmail(dto: VerifyEmailDto): Promise<{
         success: boolean;

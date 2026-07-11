@@ -136,6 +136,8 @@ let AuthService = class AuthService {
         return {
             success: true,
             message: 'Registration successful. Please check your email for the verification code.',
+            userId: user.id,
+            email: user.email,
         };
     }
     // ---------- VERIFY EMAIL ----------
@@ -189,7 +191,7 @@ let AuthService = class AuthService {
         }
         const accessToken = this.jwtService.sign({ sub: user.id, email: user.email }, {
             secret: this.options.jwtSecret,
-            expiresIn: this.options.jwtExpiresIn ?? '1d',
+            expiresIn: (this.options.jwtExpiresIn ?? '1d'),
         });
         return {
             success: true,
@@ -241,6 +243,20 @@ let AuthService = class AuthService {
         user.password = await bcrypt.hash(dto.newPassword, 10);
         await this.userRepo.save(user);
         return { success: true, message: 'Password has been reset successfully. Please log in.' };
+    }
+    // ---------- HELPERS FOR CONSUMER APPS ----------
+    /**
+     * Look up the auth user's id/email by email. Useful when you need the
+     * AuthUser.id to link your own entities (e.g. a UserProfile) to it.
+     */
+    async findByEmail(email) {
+        const user = await this.userRepo.findOne({ where: { email } });
+        return user ? { id: user.id, email: user.email } : null;
+    }
+    /** Look up the auth user's id/email by id. */
+    async findById(id) {
+        const user = await this.userRepo.findOne({ where: { id } });
+        return user ? { id: user.id, email: user.email } : null;
     }
 };
 exports.AuthService = AuthService;

@@ -117,6 +117,8 @@ export class AuthService {
     return {
       success: true,
       message: 'Registration successful. Please check your email for the verification code.',
+      userId: user.id,
+      email: user.email,
     };
   }
 
@@ -184,7 +186,7 @@ export class AuthService {
       { sub: user.id, email: user.email },
       {
         secret: this.options.jwtSecret,
-        expiresIn: this.options.jwtExpiresIn ?? '1d',
+        expiresIn: (this.options.jwtExpiresIn ?? '1d') as any,
       },
     );
 
@@ -247,5 +249,21 @@ export class AuthService {
     await this.userRepo.save(user);
 
     return { success: true, message: 'Password has been reset successfully. Please log in.' };
+  }
+
+  // ---------- HELPERS FOR CONSUMER APPS ----------
+  /**
+   * Look up the auth user's id/email by email. Useful when you need the
+   * AuthUser.id to link your own entities (e.g. a UserProfile) to it.
+   */
+  async findByEmail(email: string): Promise<{ id: string; email: string } | null> {
+    const user = await this.userRepo.findOne({ where: { email } });
+    return user ? { id: user.id, email: user.email } : null;
+  }
+
+  /** Look up the auth user's id/email by id. */
+  async findById(id: string): Promise<{ id: string; email: string } | null> {
+    const user = await this.userRepo.findOne({ where: { id } });
+    return user ? { id: user.id, email: user.email } : null;
   }
 }

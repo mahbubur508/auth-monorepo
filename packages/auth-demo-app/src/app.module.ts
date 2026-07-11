@@ -2,7 +2,9 @@ import { Module, ValidationPipe } from '@nestjs/common';
 import { APP_PIPE } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule, AuthUser, OtpToken } from '@yourscope/nest-auth';
+import { AuthModule, AuthUser, OtpToken } from '@mahbub508/nest-auth';
+import { UserProfile } from './users/user-profile.entity';
+import { UsersController } from './users/users.controller';
 
 @Module({
   imports: [
@@ -13,9 +15,11 @@ import { AuthModule, AuthUser, OtpToken } from '@yourscope/nest-auth';
     TypeOrmModule.forRoot({
       type: 'sqlite',
       database: 'auth-demo.sqlite',
-      entities: [AuthUser, OtpToken],
+      entities: [AuthUser, OtpToken, UserProfile],
       synchronize: true, // dev only
     }),
+
+    TypeOrmModule.forFeature([UserProfile]),
 
     AuthModule.forRoot({
       jwtSecret: process.env.JWT_SECRET,
@@ -33,6 +37,7 @@ import { AuthModule, AuthUser, OtpToken } from '@yourscope/nest-auth';
       otpLength: +(process.env.OTP_LENGTH ?? 6),
     }),
   ],
+  controllers: [UsersController],
   providers: [
     {
       provide: APP_PIPE,

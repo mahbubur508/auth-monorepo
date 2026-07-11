@@ -6,7 +6,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build:lib": "npm run build --workspace=@yourscope/nest-auth",
+    "build:lib": "npm run build --workspace=@mahbub508/nest-auth",
     "start:demo": "npm run build:lib && npm run start:dev --workspace=auth-demo-app",
     "start:frontend": "npm run dev --workspace=auth-frontend"
   }
